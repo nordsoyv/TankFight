@@ -3,52 +3,52 @@
  */
 
 
-var CT = {};
+var TF = {};
 
-CT.onMouseMove = function(e){
-    CT.player.handleInput("MOUSEMOVE",e);
+TF.onMouseMove = function(e){
+    TF.player.handleInput("MOUSEMOVE",e);
 };
 
-CT.onMouseDown = function (e) {
-    CT.player.handleInput("MOUSEDOWN",e);
+TF.onMouseDown = function (e) {
+    TF.player.handleInput("MOUSEDOWN",e);
 };
 
-CT.onMouseUp = function (e) {
-    CT.player.handleInput("MOUSEUP",e);
+TF.onMouseUp = function (e) {
+    TF.player.handleInput("MOUSEUP",e);
 };
 
-CT.clearCanvas = function () {
-    CT.ctx.clearRect(0, 0, CT.canvas.width, CT.canvas.height);
+TF.clearCanvas = function () {
+    TF.ctx.clearRect(0, 0, TF.canvas.width, TF.canvas.height);
 };
 
-CT.init = function () {
-    CT.player = new Player("default");
-    CT.canvas = document.getElementById("mainCanvas");
-    CT.canvas.addEventListener("mousedown", CT.onMouseDown, false);
-    CT.canvas.addEventListener("mouseup", CT.onMouseUp, false);
-    CT.canvas.addEventListener("mousemove", CT.onMouseMove, false);
-    CT.ctx = CT.canvas.getContext("2d");
+TF.init = function () {
+    TF.player = new Player("default");
+    TF.canvas = document.getElementById("mainCanvas");
+    TF.canvas.addEventListener("mousedown", TF.onMouseDown, false);
+    TF.canvas.addEventListener("mouseup", TF.onMouseUp, false);
+    TF.canvas.addEventListener("mousemove", TF.onMouseMove, false);
+    TF.ctx = TF.canvas.getContext("2d");
 
-    CT.ctx.strokeStyle = "#ff0000";
-    CT.ctx.lineWidth = 2;
+    TF.ctx.strokeStyle = "#ff0000";
+    TF.ctx.lineWidth = 2;
 
-    $("#clearButton").click(CT.clearCanvas);
+    $("#clearButton").click(TF.clearCanvas);
 
 
     $(window).keydown(function (ev) {
-        var handled = CT.player.handleInput("KEYDOWN",ev);
+        var handled = TF.player.handleInput("KEYDOWN",ev);
         if (handled) {
             return false;
         }
     });
     $(window).keyup(function (ev) {
-        var handled = CT.player.handleInput("KEYUP",ev);
+        var handled = TF.player.handleInput("KEYUP",ev);
         if (handled) {
             return false;
         }
     });
 
-    CT.animate();
+    TF.animate();
 };
 
 window.requestAnimFrame = (function (callback) {
@@ -62,24 +62,24 @@ window.requestAnimFrame = (function (callback) {
         };
 })();
 
-CT.animate = function () {
+TF.animate = function () {
 
     // update
 
 
-    CT.player.update();
+    TF.player.update();
 
     // clear
-    CT.ctx.clearRect(0, 0, CT.canvas.width, CT.canvas.height);
+    TF.ctx.clearRect(0, 0, TF.canvas.width, TF.canvas.height);
 
     // draw
-    CT.player.draw(CT.ctx);
+    TF.player.draw(TF.ctx);
     // request new frame
     requestAnimFrame(function () {
-        CT.animate();
+        TF.animate();
     });
 };
 
 
-$(document).ready(CT.init());
+$(document).ready(TF.init());
 

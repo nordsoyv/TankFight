@@ -7,8 +7,7 @@
  */
 
 var defaultTank = {
-    bodyColor:"#20440D",
-    turretColor:"0A0044",
+    barrelColor:"0A0044",
     movementRate:50,
     rotateAnglePerSecond:35,
     traversAnglePerSecond:39,
@@ -23,8 +22,7 @@ var defaultTank = {
 };
 
 var Tank = function (spec) {
-    var bodyColor = spec.bodyColor;
-    var turretColor = spec.turretColor;
+    var barrelColor = spec.barrelColor;
     var rotateAPS = spec.rotateAnglePerSecond;
     var traversAPS = spec.traversAnglePerSecond;
     var bodyLength = spec.bodyLength;
@@ -181,8 +179,7 @@ var Tank = function (spec) {
         ctx.save();
         ctx.translate(posX, posY);
         ctx.rotate(turretAngle);
-        //ctx.fillStyle = turretColor;
-        //ctx.fillRect(-turretWidth / 2, -turretLength / 2, turretWidth, turretLength);
+        ctx.fillStyle = barrelColor;
 
         ctx.fillRect(-barrelWidth / 2, 0, barrelWidth, -barrelLength);
         ctx.drawImage(turretImage, -turretWidth / 2, -turretLength / 2);
@@ -194,8 +191,6 @@ var Tank = function (spec) {
         ctx.save();
         ctx.translate(posX, posY);
         ctx.rotate(bodyAngle);
-        //ctx.fillStyle = bodyColor;
-        //ctx.fillRect(-bodyWidth / 2, -bodyLength / 2, bodyWidth, bodyLength);
         ctx.drawImage(bodyImage, -bodyWidth / 2, -bodyLength / 2);
         ctx.restore();
     };
