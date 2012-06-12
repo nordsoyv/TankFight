@@ -22,6 +22,8 @@ TF.clearCanvas = function () {
 };
 
 TF.init = function () {
+    TF.map = new Map();
+
     TF.player = new Player("default");
     TF.canvas = document.getElementById("mainCanvas");
     TF.canvas.addEventListener("mousedown", TF.onMouseDown, false);
@@ -66,13 +68,14 @@ TF.animate = function () {
 
     // update
 
-
+    TF.map.update();
     TF.player.update();
 
     // clear
     TF.ctx.clearRect(0, 0, TF.canvas.width, TF.canvas.height);
 
     // draw
+    TF.map.draw(TF.ctx,  TF.canvas.width, TF.canvas.height);
     TF.player.draw(TF.ctx);
     // request new frame
     requestAnimFrame(function () {
