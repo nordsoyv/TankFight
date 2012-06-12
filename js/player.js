@@ -8,13 +8,13 @@
 
 var defaultTank = {
     barrelColor:"0A0044",
-    movementRate:50,
-    rotateAnglePerSecond:35,
+    movementRate:80,
+    rotateAnglePerSecond:45,
     traversAnglePerSecond:39,
-    bodyLength:120,
+    bodyLength:120, //same as image
     bodyWidth:60,
     bodyImage:"img/defaultBody.png",
-    turretLength:75,
+    turretLength:75, // same as image
     turretWidth:60,
     turretImage:"img/defaultTurret.png",
     barrelCaliber:7,
@@ -265,16 +265,16 @@ var Player = function (playerName) {
 
 
     var handleDownInput = function (ev) {
-        if (ev.which == $.ui.keyCode.UP) {
+        if (ev.which == $.ui.keyCode.UP || ev.which == 87) {
             tank.moveForward();
             return true;
-        } else if (ev.which == $.ui.keyCode.DOWN) {
+        } else if (ev.which == $.ui.keyCode.DOWN || ev.which == 83) {
             tank.moveBack();
             return true;
-        } else if (ev.which == $.ui.keyCode.LEFT) {
+        } else if (ev.which == $.ui.keyCode.LEFT || ev.which == 65) {
             tank.rotateLeft();
             return true;
-        } else if (ev.which == $.ui.keyCode.RIGHT) {
+        } else if (ev.which == $.ui.keyCode.RIGHT || ev.which == 68) {
             tank.rotateRight();
             return true;
         }
@@ -282,16 +282,16 @@ var Player = function (playerName) {
     };
 
     var handleUpInput = function (ev) {
-        if (ev.which == $.ui.keyCode.UP) {
+        if (ev.which == $.ui.keyCode.UP || ev.which == 87) {
             tank.moveStop();
             return true;
-        } else if (ev.which == $.ui.keyCode.DOWN) {
+        } else if (ev.which == $.ui.keyCode.DOWN || ev.which == 83) {
             tank.moveStop();
             return true;
-        } else if (ev.which == $.ui.keyCode.LEFT) {
+        } else if (ev.which == $.ui.keyCode.LEFT || ev.which == 65) {
             tank.rotateStop();
             return true;
-        } else if (ev.which == $.ui.keyCode.RIGHT) {
+        } else if (ev.which == $.ui.keyCode.RIGHT || ev.which == 68) {
             tank.rotateStop();
             return true;
         }
