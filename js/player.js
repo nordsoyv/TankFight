@@ -18,7 +18,10 @@ var defaultTank = {
     turretWidth:60,
     turretImage:"img/defaultTurret.png",
     barrelCaliber:7,
-    barrelLength:15
+    barrelLength:15,
+    frontArmor : 100,
+    backArmor : 50,
+    sideArmor : 70
 };
 
 var Tank = function (spec) {
