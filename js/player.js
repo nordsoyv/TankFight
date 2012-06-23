@@ -58,10 +58,23 @@ var Tank = function (spec) {
     var posX = 300, posY = 300;
     var aimX = 0, aimY = 0;
 
+    var boundingBoxspec = {};
+    boundingBoxspec.xpos = posX;
+    boundingBoxspec.ypos = posY;
+    boundingBoxspec.width = bodyWidth;
+    boundingBoxspec.height = bodyLength;
+    boundingBoxspec.angle = degToRad(bodyAngle);
+
+
+
+
+    var boundingBox = createMoveableBoudingBox(boundingBoxspec);
+
     this.update = function () {
         moveBody();
         rotateBody();
         rotateTurret();
+        boundingBox.update(posX,posY,bodyAngle);
     };
 
     this.draw = function (ctx) {
@@ -69,6 +82,7 @@ var Tank = function (spec) {
         drawBody(ctx);
         drawTurret(ctx);
         drawCrossHair(ctx);
+        boundingBox.draw(ctx);
         ctx.restore();
     };
 

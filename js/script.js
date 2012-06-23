@@ -24,6 +24,9 @@ TF.clearCanvas = function () {
 TF.init = function () {
     TF.map = new Map();
 
+    TF.debug = {};
+    TF.debug.drawBoundingBoxes = true;
+
     TF.player = new Player("default");
     TF.canvas = document.getElementById("mainCanvas");
     TF.canvas.addEventListener("mousedown", TF.onMouseDown, false);
