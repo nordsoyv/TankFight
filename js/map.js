@@ -82,13 +82,11 @@ var createStaticBoundingBox = function (spec) {
     };
 
     that.checkCorner = function (corner) {
-        var dist1 = pointToLineDistance(c2, c1, corner);
-        var dist2 = pointToLineDistance(c3, c2, corner);
-        var dist3 = pointToLineDistance(c4, c3, corner);
-        var dist4 = pointToLineDistance(c1, c4, corner);
+        var dist1,dist2,dist3,dist4,line;
+        dist1 = pointToLineDistance(c2, c1, corner);
 
         if (dist1 > 0) {
-            var line = c1.subtract(c2);
+            line = c1.subtract(c2);
             line = line.toUnitVector();
             return {
                 intersect:false,
@@ -96,8 +94,9 @@ var createStaticBoundingBox = function (spec) {
                 normal:$V([ -line.elements[1] , line.elements[0]])
             };
         }
+        dist2 = pointToLineDistance(c3, c2, corner);
         if (dist2 > 0) {
-            var line = c2.subtract(c3);
+            line = c2.subtract(c3);
             line = line.toUnitVector();
             return {
                 intersect:false,
@@ -105,8 +104,10 @@ var createStaticBoundingBox = function (spec) {
                 normal:$V([ -line.elements[1] , line.elements[0]])
             };
         }
+        dist3 = pointToLineDistance(c4, c3, corner);
+
         if (dist3 > 0) {
-            var line = c3.subtract(c4);
+            line = c3.subtract(c4);
             line = line.toUnitVector();
             return {
                 intersect:false,
@@ -114,8 +115,9 @@ var createStaticBoundingBox = function (spec) {
                 normal:$V([ -line.elements[1] , line.elements[0]])
             };
         }
+        dist4 = pointToLineDistance(c1, c4, corner);
         if (dist4 > 0) {
-            var line = c4.subtract(c1);
+            line = c4.subtract(c1);
             line = line.toUnitVector();
             return {
                 intersect:false,
@@ -124,7 +126,7 @@ var createStaticBoundingBox = function (spec) {
             };
         }
         if (dist1 > dist2 && dist1 > dist3 && dist1 > dist4) {
-            var line = c1.subtract(c2);
+            line = c1.subtract(c2);
             line = line.toUnitVector();
             return {
                 intersect:true,
@@ -133,7 +135,7 @@ var createStaticBoundingBox = function (spec) {
             };
         }
         if (dist2 > dist1 && dist2 > dist3 && dist2 > dist4) {
-            var line = c2.subtract(c3);
+            line = c2.subtract(c3);
             line = line.toUnitVector();
             return {
                 intersect:true,
@@ -142,7 +144,7 @@ var createStaticBoundingBox = function (spec) {
             };
         }
         if (dist3 > dist2 && dist3 > dist1 && dist3 > dist4) {
-            var line = c3.subtract(c4);
+            line = c3.subtract(c4);
             line = line.toUnitVector();
             return {
                 intersect:true,
@@ -151,7 +153,7 @@ var createStaticBoundingBox = function (spec) {
             };
         }
         if (dist4 > dist2 && dist4 > dist3 && dist4 > dist1) {
-            var line = c4.subtract(c1);
+            line = c4.subtract(c1);
             line = line.toUnitVector();
             return {
                 intersect:true,
