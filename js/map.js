@@ -6,73 +6,20 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var degToRad = function(angle){
+var degToRad = function (angle) {
     return (angle / 360) * 2 * Math.PI;
 };
 
-var createMoveableBoudingBox = function (spec) {
 
-    var that = {};
-    var xmin = -spec.width / 2;
-    var xmax = spec.width / 2;
-    var ymin = -spec.height / 2;
-    var ymax = spec.height / 2;
+var createMoveableBoundingBox = function (spec) {
 
-
-
-    //create corners
-    var c1, c2, c3, c4;
-    initCorners();
-    rotateCorners(spec.angle);
-    moveCorners(spec.xpos,spec.ypos);
-
-    function initCorners() {
-        c1 = $V([xmin, ymin  ]);
-        c2 = $V([xmin, ymax  ]);
-        c3 = $V([xmax, ymax  ]);
-        c4 = $V([xmax, ymin  ]);
-    }
-
-    function rotateCorners (angle){
-        var axis = $V([0, 0  ]);
-        c1 = c1.rotate(angle, axis);
-        c2 = c2.rotate(angle, axis);
-        c3 = c3.rotate(angle, axis);
-        c4 = c4.rotate(angle, axis);
-    }
-
-    function moveCorners(xpos,ypos){
-        var pos = $V([xpos, ypos  ]);
-        c1 = c1.add(pos);
-        c2 = c2.add(pos);
-        c3 = c3.add(pos);
-        c4 = c4.add(pos);
-    }
+    var that = createStaticBoundingBox(spec);
 
     that.update = function (newX, newY, angle) {
-        initCorners();
-        rotateCorners(angle);
-        moveCorners(newX,newY);
+        that.initCorners();
+        that.rotateCorners(angle);
+        that.moveCorners(newX, newY);
     };
-
-    that.draw = function (ctx) {
-        if (TF.debug.drawBoundingBoxes) {
-            ctx.save();
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
-            ctx.fillStyle = "#8ED6FF";
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = "#8ED6FF";
-            ctx.beginPath();
-            ctx.moveTo(c1.elements[0], c1.elements[1]);
-            ctx.lineTo(c2.elements[0], c2.elements[1]);
-            ctx.lineTo(c3.elements[0], c3.elements[1]);
-            ctx.lineTo(c4.elements[0], c4.elements[1]);
-            ctx.lineTo(c1.elements[0], c1.elements[1]);
-            ctx.stroke();
-            ctx.restore();
-        }
-    };
-
 
     return that;
 
@@ -85,26 +32,36 @@ var createStaticBoundingBox = function (spec) {
     var xmax = spec.width / 2;
     var ymin = -spec.height / 2;
     var ymax = spec.height / 2;
-    var rotateAngle = spec.angle;
 
-    var pos = $V([spec.xpos, spec.ypos  ]);
-    //create corners
-    var c1 = $V([xmin, ymin  ]);
-    var c2 = $V([xmin, ymax  ]);
-    var c3 = $V([xmax, ymax  ]);
-    var c4 = $V([xmax, ymin  ]);
-    //rotate corners
-    var axis = $V([0, 0  ]);
-    c1 = c1.rotate(rotateAngle, axis);
-    c2 = c2.rotate(rotateAngle, axis);
-    c3 = c3.rotate(rotateAngle, axis);
-    c4 = c4.rotate(rotateAngle, axis);
-    //move to correct pos
-    c1 = c1.add(pos);
-    c2 = c2.add(pos);
-    c3 = c3.add(pos);
-    c4 = c4.add(pos);
+    //corners
+    var c1, c2, c3, c4;
 
+    that.getCorners = function () {
+        return [c1, c2, c3, c4];
+    }
+
+    that.initCorners = function () {
+        c1 = $V([xmin, ymin  ]);
+        c2 = $V([xmin, ymax  ]);
+        c3 = $V([xmax, ymax  ]);
+        c4 = $V([xmax, ymin  ]);
+    };
+
+    that.rotateCorners = function (angle) {
+        var axis = $V([0, 0  ]);
+        c1 = c1.rotate(angle, axis);
+        c2 = c2.rotate(angle, axis);
+        c3 = c3.rotate(angle, axis);
+        c4 = c4.rotate(angle, axis);
+    }
+
+    that.moveCorners = function (xpos, ypos) {
+        var pos = $V([xpos, ypos  ]);
+        c1 = c1.add(pos);
+        c2 = c2.add(pos);
+        c3 = c3.add(pos);
+        c4 = c4.add(pos);
+    }
 
     that.draw = function (ctx) {
         if (TF.debug.drawBoundingBoxes) {
@@ -124,10 +81,118 @@ var createStaticBoundingBox = function (spec) {
         }
     };
 
+    that.checkIntersection = function (corner) {
+        var dist1 = pointToLineDistance(c2, c1, corner);
+        var dist2 = pointToLineDistance(c3, c2, corner);
+        var dist3 = pointToLineDistance(c4, c3, corner);
+        var dist4 = pointToLineDistance(c1, c4, corner);
 
-    return that;
+        if (dist1 > 0) {
+            var line = c1.subtract(c2);
+            line = line.toUnitVector();
+            return {
+                intersect:false,
+                dist:dist1,
+                normal:$V([ -line.elements[1] , line.elements[0]])
+            };
+        }
+        if (dist2 > 0) {
+            var line = c2.subtract(c3);
+            line = line.toUnitVector();
+            return {
+                intersect:false,
+                dist:dist2,
+                normal:$V([ -line.elements[1] , line.elements[0]])
+            };
+        }
+        if (dist3 > 0) {
+            var line = c3.subtract(c4);
+            line = line.toUnitVector();
+            return {
+                intersect:false,
+                dist:dist3,
+                normal:$V([ -line.elements[1] , line.elements[0]])
+            };
+        }
+        if (dist4 > 0) {
+            var line = c4.subtract(c1);
+            line = line.toUnitVector();
+            return {
+                intersect:false,
+                dist:dist4,
+                normal:$V([ -line.elements[1] , line.elements[0]])
+            };
+        }
+        if (dist1 > dist2 && dist1 > dist3 && dist1 > dist4) {
+            var line = c1.subtract(c2);
+            line = line.toUnitVector();
+            return {
+                intersect:true,
+                dist:dist1,
+                normal:$V([ -line.elements[1] , line.elements[0]])
+            };
+        }
+        if (dist2 > dist1 && dist2 > dist3 && dist2 > dist4) {
+            var line = c2.subtract(c3);
+            line = line.toUnitVector();
+            return {
+                intersect:true,
+                dist:dist2,
+                normal:$V([ -line.elements[1] , line.elements[0]])
+            };
+        }
+        if (dist3 > dist2 && dist3 > dist1 && dist3 > dist4) {
+            var line = c3.subtract(c4);
+            line = line.toUnitVector();
+            return {
+                intersect:true,
+                dist:dist3,
+                normal:$V([ -line.elements[1] , line.elements[0]])
+            };
+        }
+        if (dist4 > dist2 && dist4 > dist3 && dist4 > dist1) {
+            var line = c4.subtract(c1);
+            line = line.toUnitVector();
+            return {
+                intersect:true,
+                dist:dist4,
+                normal:$V([ -line.elements[1] , line.elements[0]])
+            };
+        }
+
+    };
+
+var pointToLineDistance = function (pointA, pointB, pointP) {
+    /*
+     from wikipedia
+     public double pointToLineDistance(Point A, Point B, Point P)
+     {
+     double normalLength = Math.sqrt((B.x - A.x) * (B.x - A.x) + (B.y - A.y) * (B.y - A.y));
+     return Math.abs((P.x - A.x) * (B.y - A.y) - (P.y - A.y) * (B.x - A.x)) / normalLength;
+     }
+
+     */
+
+    var aX = pointA.elements[0];
+    var aY = pointA.elements[1];
+    var bX = pointB.elements[0];
+    var bY = pointB.elements[1];
+    var pX = pointP.elements[0];
+    var pY = pointP.elements[1];
+
+
+    var normalLength = Math.sqrt(( bX - aX  ) * ( bX - aX) + (bY - aY) * (bY - aY));
+    var distance = (  (pX - aX) * (bY - aY) - (pY - aY) * (bX - aX)) / normalLength;
+    return distance;
 
 };
+
+that.initCorners();
+that.rotateCorners(spec.angle);
+that.moveCorners(spec.xpos, spec.ypos);
+return that;
+}
+;
 
 var createHouse = function (spec) {
     spec.img = "img/roof.png";
@@ -166,7 +231,7 @@ var createMapObject = function (spec) {
 var Map = function () {
 
     var mapObjects = [];
-
+    var collisionObjects = [];
     var groundImg = new Image();
     groundImg.src = "img/tarmac_128.jpg";
     var houseSpec = {
@@ -177,7 +242,15 @@ var Map = function () {
         width:128,
         height:256
     };
-    mapObjects.push(createHouse(houseSpec));
+
+    var house = createHouse(houseSpec);
+    mapObjects.push(house);
+    collisionObjects.push(house);
+
+    this.getCollisionObjects = function (){
+        return collisionObjects;
+    };
+
     this.update = function () {
 
     };

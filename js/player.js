@@ -19,9 +19,9 @@ var defaultTank = {
     turretImage:"img/defaultTurret.png",
     barrelCaliber:7,
     barrelLength:15,
-    frontArmor : 100,
-    backArmor : 50,
-    sideArmor : 70
+    frontArmor:100,
+    backArmor:50,
+    sideArmor:70
 };
 
 var Tank = function (spec) {
@@ -66,15 +66,17 @@ var Tank = function (spec) {
     boundingBoxspec.angle = degToRad(bodyAngle);
 
 
-
-
-    var boundingBox = createMoveableBoudingBox(boundingBoxspec);
+    var boundingBox = createMoveableBoundingBox(boundingBoxspec);
 
     this.update = function () {
         moveBody();
         rotateBody();
         rotateTurret();
-        boundingBox.update(posX,posY,bodyAngle);
+        boundingBox.update(posX, posY, bodyAngle);
+    };
+
+    this.getBoundingBox = function () {
+        return boundingBox;
     };
 
     this.draw = function (ctx) {
@@ -110,6 +112,11 @@ var Tank = function (spec) {
         aimX = x;
         aimY = y;
 
+    };
+
+    this.moveRelative = function (vec) {
+        posX += vec.e(1);
+        posY += vec.e(2);
     };
 
     var moveBody = function () {
@@ -152,7 +159,7 @@ var Tank = function (spec) {
         if (aimVector.elements[0] < 0) {
             angle = (2 * Math.PI) - angle;
         }
-    //    angle += Math.PI;
+        //    angle += Math.PI;
         if (angle > 2 * Math.PI) {
             angle -= 2 * Math.PI;
         }
@@ -165,7 +172,7 @@ var Tank = function (spec) {
             angle -= Math.PI * 2;
         }
 
-      //  $("#output").val(rotAmount);
+        //  $("#output").val(rotAmount);
 
         if (turretAngle < angle) {
             if (turretAngle + traverseSpeed < angle) {
@@ -247,7 +254,6 @@ var Player = function (playerName) {
         ctx.restore();
     };
 
-
     this.handleInput = function (type, event) {
         switch (type) {
             case "MOUSEMOVE":
@@ -268,6 +274,25 @@ var Player = function (playerName) {
         }
     };
 
+    this.checkCollision = function (collisionObjects) {
+        for (var i = 0; i < collisionObjects.length; i++) {
+         //   var bb = collisionObjects[i].getBoundingBox();
+            var corners = tank.getBoundingBox().getCorners();
+
+            for (var c = 0; c < corners.length; c++) {
+                var result = collisionObjects[i].boundingBox.checkIntersection(corners[c]);
+                if (result.intersect) {
+                    //move tank back
+                    var distToMove = result.normal.multiply(result.dist* 1.1);
+                    tank.moveRelative(distToMove);
+                    console.log("HIT");
+                }
+            }
+
+        }
+
+
+    };
     var handleMouseDown = function (e) {
         isShooting = true;
     };

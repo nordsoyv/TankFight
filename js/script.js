@@ -71,8 +71,13 @@ TF.animate = function () {
 
     // update
 
-    TF.map.update();
+
     TF.player.update();
+    TF.map.update();
+
+    TF.player.checkCollision(TF.map.getCollisionObjects()  );
+
+    //TF.map.checkCollision(TF.player.getTank());
 
     // clear
     TF.ctx.clearRect(0, 0, TF.canvas.width, TF.canvas.height);
