@@ -81,7 +81,7 @@ var createStaticBoundingBox = function (spec) {
         }
     };
 
-    that.checkIntersection = function (corner) {
+    that.checkCorner = function (corner) {
         var dist1 = pointToLineDistance(c2, c1, corner);
         var dist2 = pointToLineDistance(c3, c2, corner);
         var dist3 = pointToLineDistance(c4, c3, corner);
@@ -159,40 +159,62 @@ var createStaticBoundingBox = function (spec) {
                 normal:$V([ -line.elements[1] , line.elements[0]])
             };
         }
+    };
+
+    that.checkIntersection = function (otherBB) {
+        var result, i;
+        var otherCorner = otherBB.getCorners();
+        var corners = that.getCorners();
+
+        for (i = 0; i < otherCorner.length; i++) {
+            result = that.checkCorner(otherCorner[i]);
+            if (result.intersect) {
+                return result;
+            }
+        }
+
+        for (i = 0; i < corners.length; i++) {
+            result = otherBB.checkCorner(corners[i]);
+            if (result.intersect) {
+                //reflect normal
+                result.normal.elements[0] = -result.normal.elements[0];
+                result.normal.elements[1] = -result.normal.elements[1];
+                return result;
+            }
+        }
+        return {intersect:false};
+    };
+
+    var pointToLineDistance = function (pointA, pointB, pointP) {
+        /*
+         from wikipedia
+         public double pointToLineDistance(Point A, Point B, Point P)
+         {
+         double normalLength = Math.sqrt((B.x - A.x) * (B.x - A.x) + (B.y - A.y) * (B.y - A.y));
+         return Math.abs((P.x - A.x) * (B.y - A.y) - (P.y - A.y) * (B.x - A.x)) / normalLength;
+         }
+
+         */
+
+        var aX = pointA.elements[0];
+        var aY = pointA.elements[1];
+        var bX = pointB.elements[0];
+        var bY = pointB.elements[1];
+        var pX = pointP.elements[0];
+        var pY = pointP.elements[1];
+
+
+        var normalLength = Math.sqrt(( bX - aX  ) * ( bX - aX) + (bY - aY) * (bY - aY));
+        var distance = (  (pX - aX) * (bY - aY) - (pY - aY) * (bX - aX)) / normalLength;
+        return distance;
 
     };
 
-var pointToLineDistance = function (pointA, pointB, pointP) {
-    /*
-     from wikipedia
-     public double pointToLineDistance(Point A, Point B, Point P)
-     {
-     double normalLength = Math.sqrt((B.x - A.x) * (B.x - A.x) + (B.y - A.y) * (B.y - A.y));
-     return Math.abs((P.x - A.x) * (B.y - A.y) - (P.y - A.y) * (B.x - A.x)) / normalLength;
-     }
-
-     */
-
-    var aX = pointA.elements[0];
-    var aY = pointA.elements[1];
-    var bX = pointB.elements[0];
-    var bY = pointB.elements[1];
-    var pX = pointP.elements[0];
-    var pY = pointP.elements[1];
-
-
-    var normalLength = Math.sqrt(( bX - aX  ) * ( bX - aX) + (bY - aY) * (bY - aY));
-    var distance = (  (pX - aX) * (bY - aY) - (pY - aY) * (bX - aX)) / normalLength;
-    return distance;
-
+    that.initCorners();
+    that.rotateCorners(spec.angle);
+    that.moveCorners(spec.xpos, spec.ypos);
+    return that;
 };
-
-that.initCorners();
-that.rotateCorners(spec.angle);
-that.moveCorners(spec.xpos, spec.ypos);
-return that;
-}
-;
 
 var createHouse = function (spec) {
     spec.img = "img/roof.png";
@@ -247,7 +269,7 @@ var Map = function () {
     mapObjects.push(house);
     collisionObjects.push(house);
 
-    this.getCollisionObjects = function (){
+    this.getCollisionObjects = function () {
         return collisionObjects;
     };
 

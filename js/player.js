@@ -276,17 +276,11 @@ var Player = function (playerName) {
 
     this.checkCollision = function (collisionObjects) {
         for (var i = 0; i < collisionObjects.length; i++) {
-         //   var bb = collisionObjects[i].getBoundingBox();
-            var corners = tank.getBoundingBox().getCorners();
-
-            for (var c = 0; c < corners.length; c++) {
-                var result = collisionObjects[i].boundingBox.checkIntersection(corners[c]);
-                if (result.intersect) {
-                    //move tank back
-                    var distToMove = result.normal.multiply(result.dist* 1.1);
-                    tank.moveRelative(distToMove);
-                    console.log("HIT");
-                }
+            var result = collisionObjects[i].boundingBox.checkIntersection(tank.getBoundingBox());
+            if (result.intersect) {
+                //move tank back
+                var distToMove = result.normal.multiply(result.dist * 1.1);
+                tank.moveRelative(distToMove);
             }
 
         }
