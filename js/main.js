@@ -24,7 +24,9 @@ TF.clearCanvas = function () {
 TF.init = function () {
 
 
-
+    $.getJSON('map/desert.json', function (json) {
+        log(json)
+    });
 
     TF.debug = {};
     TF.debug.drawBoundingBoxes = true;
