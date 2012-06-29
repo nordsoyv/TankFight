@@ -6,15 +6,15 @@
 var TF = {};
 
 TF.onMouseMove = function(e){
-    TF.player.handleInput("MOUSEMOVE",e);
+    TF.scene.handleInput("MOUSEMOVE",e);
 };
 
 TF.onMouseDown = function (e) {
-    TF.player.handleInput("MOUSEDOWN",e);
+    TF.scene.handleInput("MOUSEDOWN",e);
 };
 
 TF.onMouseUp = function (e) {
-    TF.player.handleInput("MOUSEUP",e);
+    TF.scene.handleInput("MOUSEUP",e);
 };
 
 TF.clearCanvas = function () {
@@ -22,17 +22,22 @@ TF.clearCanvas = function () {
 };
 
 TF.init = function () {
-    TF.map = new Map();
+
+
+
 
     TF.debug = {};
     TF.debug.drawBoundingBoxes = true;
 
-    TF.player = new Player("default");
     TF.canvas = document.getElementById("mainCanvas");
     TF.canvas.addEventListener("mousedown", TF.onMouseDown, false);
     TF.canvas.addEventListener("mouseup", TF.onMouseUp, false);
     TF.canvas.addEventListener("mousemove", TF.onMouseMove, false);
     TF.ctx = TF.canvas.getContext("2d");
+
+
+    TF.scene = createScene(TF.canvas.width, TF.canvas.height);
+
 
     TF.ctx.strokeStyle = "#ff0000";
     TF.ctx.lineWidth = 2;
@@ -41,13 +46,13 @@ TF.init = function () {
 
 
     $(window).keydown(function (ev) {
-        var handled = TF.player.handleInput("KEYDOWN",ev);
+        var handled = TF.scene.handleInput("KEYDOWN",ev);
         if (handled) {
             return false;
         }
     });
     $(window).keyup(function (ev) {
-        var handled = TF.player.handleInput("KEYUP",ev);
+        var handled = TF.scene.handleInput("KEYUP",ev);
         if (handled) {
             return false;
         }
@@ -70,12 +75,12 @@ window.requestAnimFrame = (function (callback) {
 TF.animate = function () {
 
     // update
+    TF.scene.update();
+
+//    TF.player.update();
+//    TF.map.update();
 
 
-    TF.player.update();
-    TF.map.update();
-
-    TF.player.checkCollision(TF.map.getCollisionObjects()  );
 
     //TF.map.checkCollision(TF.player.getTank());
 
@@ -83,8 +88,8 @@ TF.animate = function () {
     TF.ctx.clearRect(0, 0, TF.canvas.width, TF.canvas.height);
 
     // draw
-    TF.map.draw(TF.ctx,  TF.canvas.width, TF.canvas.height);
-    TF.player.draw(TF.ctx);
+    TF.scene.draw(TF.ctx);
+
     // request new frame
     requestAnimFrame(function () {
         TF.animate();
