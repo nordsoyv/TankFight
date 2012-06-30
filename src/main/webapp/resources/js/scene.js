@@ -1,9 +1,11 @@
 var createScene = function (canvasWidth, canvasHeight) {
     var that = {};
     that.map = new Map();
+    that.tiledMap = createTiledMap();
     that.player = new Player("Name");
 
-
+    
+    
     that.update = function () {
         that.map.update();
         that.player.update();
@@ -21,7 +23,7 @@ var createScene = function (canvasWidth, canvasHeight) {
 
     that.handleInput = function(type, event){
         return that.player.handleInput(type,event);
-    }
+    };
 
 
     return that;
