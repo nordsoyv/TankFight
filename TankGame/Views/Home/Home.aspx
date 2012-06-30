@@ -49,7 +49,7 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
 <div role="main">
     <div class="mainFrame">
         <div class="canvasFrame">
-            <canvas id="mainCanvas" width="1024" height="1024">
+            <canvas id="mainCanvas" width="1280" height="1280">
             </canvas>
         </div>
         <button id="clearButton">Clear</button>

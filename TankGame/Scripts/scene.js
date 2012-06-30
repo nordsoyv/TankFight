@@ -2,32 +2,31 @@
 /// <reference path="tiledMap.js" />
 
 var createScene = function (canvasWidth, canvasHeight) {
-    var that = {};
-    that.map = new Map();
-    that.tiledMap = createTiledMap();
-    that.player = new Player("Name");
-
-    
-    
-    that.update = function () {
-        that.map.update();
-        that.player.update();
-
-        that.player.checkCollision(that.map.getCollisionObjects());
+	var that = {};
+	that.tiledMap = createTiledMap();
+	that.player = new Player("Name");
 
 
-    };
 
-    that.draw = function (ctx) {
-        that.map.draw(ctx,canvasWidth,canvasHeight);
-        that.player.draw(ctx);
+	that.update = function () {
+		that.tiledMap.update();
+		that.player.update();
 
-    };
-
-    that.handleInput = function(type, event){
-        return that.player.handleInput(type,event);
-    };
+		//that.player.checkCollision(that.map.getCollisionObjects());
 
 
-    return that;
+	};
+
+	that.draw = function (ctx) {
+		that.tiledMap.draw(ctx, canvasWidth, canvasHeight);
+		that.player.draw(ctx);
+
+	};
+
+	that.handleInput = function (type, event) {
+		return that.player.handleInput(type, event);
+	};
+
+
+	return that;
 };

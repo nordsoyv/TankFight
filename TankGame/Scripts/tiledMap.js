@@ -13,24 +13,79 @@ var createTiledMap = function () {
 	var that = {};
 	that.collisionObjects = [];
 
-
-
-
-
 	$.ajaxSetup({ "async": false });
 	var response = $.getJSON("Content/map/desert.json");
 	$.ajaxSetup({ "async": true });
 	var mapdata = $.parseJSON(response.responseText);
 	response = null;
 
-	
 
 
+	var tileset = createTileSet(mapdata.tilesets);
+	var tileLayer = mapdata.layers[0].data;
+	var width = mapdata.widht;
+	var height = mapdata.height;
+	var tileHeight = mapdata.tileheight
+	var tileWidth = mapdata.tilewidth;
+
+
+	that.draw = function (ctx, canvasWidth, canvasHeight) {
+		var tileToDraw = 0;
+		ctx.save();
+		ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+		for (ypos = 0; ypos < canvasHeight || ypos < height * tileHeight; ypos += tileHeight) {
+			for (xpos = 0; xpos < canvasWidth || xpos < width * tileWidth; xpos += tileWidth) {
+				//sx, sy, sw, sh, dx, dy, dw, dh
+				var tileNr = tileLayer[tileToDraw];
+				var tileInfo = tileset.tiles[tileNr];
+				ctx.drawImage(tileset.image, tileInfo.xpos, tileInfo.ypos, tileWidth, tileHeight, xpos, ypos, tileWidth, tileHeight);
+				tileToDraw++;
+			}
+		}
+
+
+
+		ctx.restore();
+	};
+
+	that.update = function () {
+
+	};
 
 	return that;
 };
 
 var createTileSet = function (tileset) {
+	var that = {};
+	that.margin = tileset[0].margin;
+	that.spacing = tileset[0].spacing;
+	that.firstgid = tileset[0].firstgid;
+	that.image = tileset[0].image;
+	that.imageheight = tileset[0].imageheight;
+	that.imagewidth = tileset[0].imagewidth;
+	that.tileheight = tileset[0].tileheight;
+	that.tilewidth = tileset[0].tilewidth;
+	that.image = new Image();
+	that.image.src = tileset[0].image;
+	that.tiles = [];
+	var tileCounter = that.firstgid;
+
+	for (var ypos = that.margin; ypos < that.imageheight; ) {
+
+		for (var xpos = that.margin; xpos < that.imagewidth - that.margin; ) {
+			var tile = {};
+			tile.xpos = xpos;
+			tile.ypos = ypos;
+			that.tiles[tileCounter] = tile;
+			tileCounter++;
+			xpos += that.spacing + that.tilewidth;
+		}
+		ypos += that.spacing + that.tileheight;
+	}
+
+
+	return that;
 
 };
 /*
