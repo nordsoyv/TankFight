@@ -1,3 +1,6 @@
+/// <reference path="map.js" />
+/// <reference path="tiledMap.js" />
+
 var createScene = function (canvasWidth, canvasHeight) {
     var that = {};
     that.map = new Map();

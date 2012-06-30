@@ -82,6 +82,7 @@
     <Content Include="Content\img\tarmac.jpg" />
     <Content Include="Content\img\tarmac_128.jpg" />
     <Content Include="Content\img\tmw_desert_spacing.png" />
+    <Content Include="Scripts\libs\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\libs\jquery-1.7.1.js" />
     <Content Include="Scripts\libs\jquery-1.7.1.min.js" />
     <Content Include="Scripts\libs\jquery-ui-1.8.21.custom.min.js" />
