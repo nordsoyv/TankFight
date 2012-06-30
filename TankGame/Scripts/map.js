@@ -219,7 +219,7 @@ var createStaticBoundingBox = function (spec) {
 };
 
 var createHouse = function (spec) {
-    spec.img = "img/roof.png";
+	spec.img = "Content/img/roof.png";
     return createMapObject(spec);
 };
 
@@ -257,7 +257,7 @@ var Map = function () {
     var mapObjects = [];
     var collisionObjects = [];
     var groundImg = new Image();
-    groundImg.src = "img/tarmac_128.jpg";
+    groundImg.src = "Content/img/tarmac_128.jpg";
     var houseSpec = {
         xpos:450,
         ypos:150,

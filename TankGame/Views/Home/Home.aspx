@@ -1,3 +1,4 @@
+﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <!doctype html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7]>
@@ -9,7 +10,7 @@
 <!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang="en"> <!--<![endif]-->
-<head>
+<head >
     <meta charset="utf-8">
 
     <!-- Use the .htaccess and remove these lines to avoid edge case issues.
@@ -24,14 +25,17 @@
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
 
-    <link rel="stylesheet" href="css/style.css">
-
+   
+	<link rel="stylesheet" href="../../Content/css/style.css" />
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
     <!-- All JavaScript at the bottom, except this Modernizr build.
 Modernizr enables HTML5 elements & feature detects for optimal performance.
 Create your own custom Modernizr build: www.modernizr.com/download/ -->
-    <script src="js/libs/modernizr-2.5.3.min.js"></script>
+    <script src="<%=ResolveUrl("~/Scripts/libs/modernizr-2.5.3.min.js") %>" type="text/javascript"></script>
+    <script src="<%=ResolveUrl("~/Scripts/libs/jquery-1.7.1.min.js") %>" type="text/javascript"></script>
+    <script src="<%=ResolveUrl("~/Scripts/libs/jquery-ui-1.8.21.custom.min.js") %>" type="text/javascript"></script>
+    <script src="<%=ResolveUrl("~/Scripts/libs/sylvester.js") %>" type="text/javascript"></script>
 </head>
 <body>
 <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
@@ -62,19 +66,16 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
 
 <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script-->
-<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
-<script>window.jQuery || document.write('<script src="js/libs/jquery-ui-1.8.21.custom.min.js"><\/script>')</script>
-<script src="js/libs/jquery-1.7.1.min.js"></script>
-<script src="js/libs/jquery-ui-1.8.21.custom.min.js"></script>
-<script src="js/libs/sylvester.js"></script>
+<script>	window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+<script>	window.jQuery || document.write('<script src="js/libs/jquery-ui-1.8.21.custom.min.js"><\/script>')</script>
 
 <!-- scripts concatenated and minified via build script -->
-<script src="js/plugins.js"></script>
-<script src="js/player.js"></script>
-<script src="js/map.js" ></script>
-<script src="js/tiledMap.js"></script>
-<script src="js/scene.js"></script>
-<script src="js/main.js"></script>
+<script src="<%=ResolveUrl("~/Scripts/plugins.js") %>"></script>
+<script src="<%=ResolveUrl("~/Scripts/player.js") %>"></script>
+<script src="<%=ResolveUrl("~/Scripts/map.js") %>" ></script>
+<script src="<%=ResolveUrl("~/Scripts/tiledMap.js") %>"></script>
+<script src="<%=ResolveUrl("~/Scripts/scene.js") %>"></script>
+<script src="<%=ResolveUrl("~/Scripts/main.js") %>"></script>
 <!-- end scripts -->
 
 <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.

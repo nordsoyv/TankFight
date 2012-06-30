@@ -15,7 +15,7 @@ var createTiledMap = function() {
     
     
     $.ajaxSetup( { "async": false } );
-	var response  = $.getJSON("map/desert.json"); 
+    var response = $.getJSON("Content/map/desert.json"); 
 	
 	
 	$.ajaxSetup( { "async": true } );
@@ -34,7 +34,7 @@ var Map = function() {
 	var mapObjects = [];
 	var collisionObjects = [];
 	var groundImg = new Image();
-	groundImg.src = "img/tarmac_128.jpg";
+	groundImg.src = "Content/img/tarmac_128.jpg";
 	var houseSpec = {
 		xpos : 450,
 		ypos : 150,

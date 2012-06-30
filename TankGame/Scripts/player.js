@@ -13,10 +13,10 @@ var defaultTank = {
     traversAnglePerSecond:39,
     bodyLength:120, //same as image
     bodyWidth:60,
-    bodyImage:"img/defaultBody.png",
+    bodyImage:"Content/img/defaultBody.png",
     turretLength:75, // same as image
     turretWidth:60,
-    turretImage:"img/defaultTurret.png",
+    turretImage: "Content/img/defaultTurret.png",
     barrelCaliber:7,
     barrelLength:15,
     frontArmor:100,
