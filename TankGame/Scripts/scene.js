@@ -12,7 +12,7 @@ var createScene = function (canvasWidth, canvasHeight) {
 		that.tiledMap.update();
 		that.player.update();
 
-		//that.player.checkCollision(that.map.getCollisionObjects());
+		that.player.checkCollision(that.tiledMap.getCollisionObjects());
 
 
 	};

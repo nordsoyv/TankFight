@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="30" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Desert" tilewidth="32" tileheight="32" spacing="1" margin="1">
+  <image source="C:/Program Files (x86)/Tiled/examples/tmw_desert_spacing.png" width="265" height="199"/>
+ </tileset>
+ <layer name="Ground" width="30" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzdltsOgjAMhqdceCARD4moRIyieEDB9386a4SwNGNrYUDixXchdvv4V7CGQoiwRWaAB8xb9sikCu9BURcTr3G+7yPvN9sa8IENY50pC4UBMAQcdD+cPbbAjkEATIAp4DbIdQRODCKDV8VN4z0DD+DSgleXNyLmb+KNO/S+K3peeJ7i99y8LHlxT/FnUz7cd+yNNXsX1+SamOjF52DKe63oKTdv3XPGfsw9P0cqicY7yhmL8jdNh0OsK9hXeD1Rzovi3nS4xDrVOtnri3JeLIClgRWxTrWuTm+boHo3bPupM6aphzMbAwtnlwr+Ox0Z9uT8H7DppZJ16MXPQx95bXk5fc3+IG+dM+grL2c2JtK6D2WLZYg=
+  </data>
+ </layer>
+ <objectgroup name="Collision" width="30" height="30">
+  <object x="433" y="496" width="414" height="65"/>
+  <object x="783" y="145" width="63" height="351"/>
+  <object name="border" x="0" y="0" width="960" height="960"/>
+  <object x="112" y="497" width="287" height="64"/>
+ </objectgroup>
+</map>

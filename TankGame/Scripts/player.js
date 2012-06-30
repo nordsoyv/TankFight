@@ -276,7 +276,7 @@ var Player = function (playerName) {
 
     this.checkCollision = function (collisionObjects) {
         for (var i = 0; i < collisionObjects.length; i++) {
-            var result = collisionObjects[i].boundingBox.checkIntersection(tank.getBoundingBox());
+            var result = collisionObjects[i].checkIntersection(tank.getBoundingBox());
             if (result.intersect) {
                 //move tank back
                 var distToMove = result.normal.multiply(result.dist * 1.1);
